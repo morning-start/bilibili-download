@@ -1,3 +1,4 @@
 test.*
 ffmpeg
 __pycache__
+config
