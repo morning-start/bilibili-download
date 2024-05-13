@@ -1,7 +1,7 @@
 from bilibili_api import Credential, favorite_list
 from tqdm import tqdm
 
-from utils.video import download_v
+from utils.video import download_file
 
 
 async def get_collection(
@@ -37,7 +37,10 @@ def get_video_info(v: dict[str]):
 
 
 async def download_collection(
-    fid, out_dir, credential: Credential, download_video=True
+    fid: str,
+    out_dir: str,
+    credential: Credential,
+    download_video=True,
 ):
     media_count, collection_name = await get_collection_info(fid=fid, cre=credential)
     medias = await get_collection(fid=fid, media_count=media_count, cre=credential)
@@ -47,9 +50,9 @@ async def download_collection(
         bvid = info.get("bvid")
         # file_name = info.get("file_name")
 
-        await download_v(
+        await download_file(
             bvid,
             f"{out_dir}/{collection_name}",
             credential,
-            v=download_video,
+            download_video,
         )

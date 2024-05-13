@@ -30,6 +30,7 @@ def convert_video(temp_list: list, out_path: str):
         ffmpeg.input(temp_list[0]).output(out_path)
     if len(temp_list) == 2:
         ffmpeg.input(temp_list[0]).input(temp_list[1]).output(out_path, {"c": "copy"})
+    # print(ffmpeg.arguments)
     ffmpeg.execute()
     for temp in temp_list:
         Path(temp).unlink()
@@ -110,7 +111,7 @@ async def download_audio(
     return temp_audio
 
 
-async def download_v(
+async def download_file(
     bv_id: str,
     out_dir: str,
     credential: Credential,
@@ -127,7 +128,7 @@ async def download_v(
     detecter = video.VideoDownloadURLDataDetecter(data=download_url_data)
     streams = detecter.detect_best_streams()
     if d_v:
-        out_path = f"./{out_dir}/{file_name}.mp4"
+        out_path = f"{out_dir}/{file_name}.mp4"
         if Path(out_path).exists():
             return
         temp_list = await download_video(detecter, streams, file_name)

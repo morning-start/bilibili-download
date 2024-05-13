@@ -14,7 +14,7 @@
         {
             "fid": "3098863103",
             "out_dir":"./out",
-            "download_video": "False"
+            "download_video": false
         }
     ],
     "video_list": [
@@ -25,7 +25,7 @@
     "channel_series":[
         {
             "sid": "3164316",
-            "download_video": "False"
+            "download_video": false
         }
     ]
 }
@@ -37,7 +37,7 @@
 {
     "id":"1111",
     "out_dir":"./out",
-    "download_video":"True"
+    "download_video":true
 }
 ```
 
