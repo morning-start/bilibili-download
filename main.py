@@ -78,19 +78,24 @@ def read_download(file_path: Path) -> dict:
     return data
 
 
-async def multi_favorite(credential: Credential, config_list: list[dict], download_dir):
+async def multi_favorite(
+    credential: Credential, config_list: list[dict], download_dir: str
+):
     for config in config_list:
-        out_dir = config.get("out_dir", download_dir)
         fid = config["fid"]  # 缺失fid报错
+        out_dir = config.get("out_dir", download_dir)
         download_video = config.get("download_video", True)
         await download_collection(fid, out_dir, credential, download_video)
 
 
-async def multi_video(credential: Credential, config_list: list[dict], download_dir):
+async def multi_video(
+    credential: Credential, config_list: list[dict], download_dir: str
+):
     for config in config_list:
+        bvid = config["bvid"]  # 缺失bv_id报错
         out_dir = config.get("out_dir", download_dir)
-        bv_id = config["bv_id"]
-        download_v(bv_id, out_dir, credential)
+        download_video = config.get("download_video", True)
+        download_v(bvid, out_dir, credential, download_video)
 
 
 async def main():
@@ -103,7 +108,7 @@ async def main():
     video_list = config.get("video_list", [])
     channel_series = config.get("channel_list", [])
     await multi_favorite(credential, favorite_list, download_dir)
-    await multi_video(credential)
+    await multi_video(credential, video_list, download_dir)
 
 
 if __name__ == "__main__":
