@@ -37,7 +37,7 @@ def get_video_info(v: dict[str]):
 
 
 async def download_collection(
-    fid, out_dir, credential: Credential, download_audio=True
+    fid, out_dir, credential: Credential, download_video=True
 ):
     media_count, collection_name = await get_collection_info(fid=fid, cre=credential)
     medias = await get_collection(fid=fid, media_count=media_count, cre=credential)
@@ -45,6 +45,11 @@ async def download_collection(
     for v in iter_medias:
         info = get_video_info(v)
         bvid = info.get("bvid")
-        file_name = info.get("file_name")
+        # file_name = info.get("file_name")
 
-        await download_v(bvid, file_name, out_dir, credential, audio=download_audio)
+        await download_v(
+            bvid,
+            f"{out_dir}/{collection_name}",
+            credential,
+            v=download_video,
+        )

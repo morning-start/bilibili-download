@@ -112,30 +112,29 @@ async def download_audio(
 
 async def download_v(
     bv_id: str,
-    file_name: str,
     out_dir: str,
     credential: Credential,
-    audio: bool = False,
+    d_v: bool = False,
 ):
     # 实例化 Video 类
     v = video.Video(bvid=bv_id, credential=credential)
     # 获取视频下载链接
-    # info = await v.get_info()
-    # file_name: str = info["title"]
+    info = await v.get_info()
+    file_name: str = info["title"]
     file_name = file_name.replace("/", " ")
     download_url_data = await v.get_download_url(0)
     # 解析视频下载信息
     detecter = video.VideoDownloadURLDataDetecter(data=download_url_data)
     streams = detecter.detect_best_streams()
-    if audio:
+    if d_v:
+        out_path = f"./{out_dir}/{file_name}.mp4"
+        if Path(out_path).exists():
+            return
+        temp_list = await download_video(detecter, streams, file_name)
+        convert_video(temp_list, out_path)
+    else:
         out_path = Path(f"{out_dir}/{file_name}.aac")
         if out_path.exists():
             return
         audio_path = await download_audio(detecter, streams, file_name)
         convert_audio(audio_path, out_path)
-    else:
-        out_path = f"./out/{file_name}.mp4"
-        if Path(out_path).exists():
-            return
-        temp_list = await download_video(detecter, streams, file_name)
-        convert_video(temp_list, out_path)
