@@ -2,3 +2,5 @@ test.*
 ffmpeg
 __pycache__
 config
+temp
+out

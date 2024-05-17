@@ -21,7 +21,7 @@ async def multi_fn(
         id = config[id_name]  # 缺失id报错
         out_dir = config.get("out_dir", download_dir)
         download_video = config.get("download_video", True)
-        print(bool(download_video))
+        # print(bool(download_video))
 
         await download_fn(id, out_dir, credential, download_video)
 
@@ -30,6 +30,7 @@ async def main():
     config_path = Path("./config/cookie.json")
     # 生成一个 Credential 对象
     cred = await read_credential(config_path)
+    cred = None
     config = read_download(Path("./config/download.json"))
     download_dir = config.get("download_dir", "./out")
     config_map = {
@@ -37,9 +38,12 @@ async def main():
         "video_list": {"id": "bvid", "fn": download_file},
         "channel_list": {"id": "sid", "fn": download_channel_series},
     }
-    for k, v in config_map.items():
-        link_list = config.get(k, [])
-        await multi_fn(cred, link_list, v["id"], v["fn"], download_dir)
+    # for k, v in config_map.items():
+    #     link_list = config.get(k, [])
+    #     await multi_fn(cred, link_list, v["id"], v["fn"], download_dir)
+    k, v = list(config_map.items())[2]
+    link_list = config.get(k, [])
+    await multi_fn(cred, link_list, v["id"], v["fn"], download_dir)
 
 
 if __name__ == "__main__":

@@ -117,6 +117,7 @@ async def download_file(
     credential: Credential,
     d_v: bool = False,
 ):
+    Path(out_dir).mkdir(parents=True, exist_ok=True)
     # 实例化 Video 类
     v = video.Video(bvid=bv_id, credential=credential)
     # 获取视频下载链接

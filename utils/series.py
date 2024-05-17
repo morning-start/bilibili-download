@@ -63,3 +63,10 @@ async def download_channel_series(
             credential,
             download_video,
         )
+
+
+if __name__ == "__main__":
+    import asyncio
+
+    # asyncio.run(download_channel_series("3164316", "./out"))
+    asyncio.run(download_channel_series("3164316", "./out", download_video=False))
