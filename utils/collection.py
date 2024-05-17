@@ -29,7 +29,7 @@ async def get_collection_info(fid: str, cre: Credential = None):
     return int(count), collection_name
 
 
-def get_video_info(v: dict[str]):
+def parse_video_info(v: dict[str]):
     file_name = v.get("title")
     bvid = v.get("bvid")
     cover = v.get("cover")
@@ -46,7 +46,7 @@ async def download_collection(
     medias = await get_collection(fid=fid, media_count=media_count, cre=credential)
     iter_medias = tqdm(medias, total=media_count, desc=f"🚀{collection_name}")
     for v in iter_medias:
-        info = get_video_info(v)
+        info = parse_video_info(v)
         bvid = info.get("bvid")
         # file_name = info.get("file_name")
 

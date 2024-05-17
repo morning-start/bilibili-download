@@ -6,6 +6,7 @@ from bilibili_api import Credential
 
 from utils.collection import download_collection
 from utils.preparation import make_dir, read_credential, read_download
+from utils.series import download_channel_series
 from utils.video import download_file
 
 
@@ -23,15 +24,6 @@ async def multi_fn(
         print(bool(download_video))
 
         await download_fn(id, out_dir, credential, download_video)
-
-
-def download_channel_series(
-    sid: str,
-    out_dir: str,
-    credential: Credential,
-    download_video=True,
-):
-    pass
 
 
 async def main():
