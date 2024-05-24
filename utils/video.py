@@ -111,20 +111,24 @@ async def download_audio(
     return temp_audio
 
 
-async def download_file(
-    bv_id: str,
-    out_dir: str,
-    credential: Credential,
-    d_v: bool = False,
-):
-    Path(out_dir).mkdir(parents=True, exist_ok=True)
-    # 实例化 Video 类
+async def get_video_info(bv_id, credential):
     v = video.Video(bvid=bv_id, credential=credential)
-    # 获取视频下载链接
     info = await v.get_info()
     file_name: str = info["title"]
     file_name = file_name.replace("/", " ")
     download_url_data = await v.get_download_url(0)
+    return file_name, download_url_data
+
+
+async def download_file(
+    bv_id: str,
+    out_dir: str,
+    credential: Credential = None,
+    d_v: bool = False,
+):
+    Path(out_dir).mkdir(parents=True, exist_ok=True)
+    # 实例化 Video 类
+    file_name, download_url_data = await get_video_info(bv_id, credential)
     # 解析视频下载信息
     detecter = video.VideoDownloadURLDataDetecter(data=download_url_data)
     streams = detecter.detect_best_streams()
